@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>STCEx Swap → STC Auto Staking</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <h2>🟡 STCEx Swap → STC Auto Staking (เคลมเมื่อครบสัญญา)</h2>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div class="muted">Wallet</div>
+          <div id="wallet" class="mono">❌ ยังไม่เชื่อมต่อ</div>
+        </div>
+        <button id="btnConnect">เชื่อมต่อกระเป๋า</button>
+      </div>
+
+      <div class="muted" style="margin-top:10px">
+        Contract: <span id="contract" class="mono">-</span><br/>
+        Explorer: <a id="scanContract" href="#" target="_blank">เปิด Contract</a>
+        &nbsp;|&nbsp; Wallet: <a id="scanWallet" href="#" target="_blank">เปิด Wallet</a>
+      </div>
+
+      <div class="muted" style="margin-top:10px">
+        Network: <span id="net" class="mono">-</span>
+        &nbsp;|&nbsp; Owner: <span id="owner" class="mono">-</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>1) Swap USDT → STCEx</h3>
+        <div class="muted">อัตรา (Owner ปรับได้) • ไม่มีค่าแนะนำ</div>
+
+        <div style="margin-top:10px">
+          <div class="muted">USDT amount</div>
+          <input id="usdtIn" placeholder="เช่น 50" inputmode="decimal" />
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <button id="btnApproveUSDT">Approve USDT</button>
+          <button id="btnSwap">Swap</button>
+        </div>
+
+        <div class="muted" style="margin-top:10px">
+          USDT Balance: <span id="balUSDT" class="mono">-</span><br/>
+          STCEx Balance: <span id="balSTCEx" class="mono">-</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="muted">
+          Current rates:<br/>
+          stcexPerUsdt: <span id="rate1" class="mono">-</span><br/>
+          stcPerStcex: <span id="rate2" class="mono">-</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2) Stake STCEx → STC</h3>
+        <div class="muted">ขั้นต่ำ 10 STCEx • ดอกสะสม • ✅ เคลมเมื่อครบสัญญาเท่านั้น</div>
+
+        <div style="margin-top:10px">
+          <div class="muted">STCEx amount to stake</div>
+          <input id="stcexIn" placeholder="เช่น 10" inputmode="decimal" />
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <button id="btnApproveSTCEx">Approve STCEx</button>
+          <button id="btnStake">Stake</button>
+        </div>
+
+        <div class="muted" style="margin-top:10px">
+          STC Balance: <span id="balSTC" class="mono">-</span><br/>
+          minStakeSTCEx: <span id="minStake" class="mono">-</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="muted">
+          lockSeconds: <span id="lock" class="mono">-</span><br/>
+          periodSeconds: <span id="period" class="mono">-</span><br/>
+          rewardBps: <span id="bps" class="mono">-</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📌 สถานะ Staking (เวลาถอยหลัง)</h3>
+
+      <div class="row">
+        <div class="pill">Principal (STC): <span id="principal" class="mono">-</span></div>
+        <div class="pill">Accrued Reward (STC): <span id="accrued" class="mono">-</span></div>
+        <div class="pill">Periods (30d): <span id="periods" class="mono">-</span></div>
+        <div class="pill">Matured: <span id="matured" class="mono">-</span></div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div class="pill">Unlock in: <span id="unlockCd" class="mono">-</span></div>
+        <div class="pill">UnlockAt: <span id="unlockAt" class="mono">-</span></div>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <button id="btnWithdrawAll">Withdraw All (ครบสัญญา: ต้น+ดอก)</button>
+        <button id="btnRefresh">Refresh</button>
+      </div>
+
+      <div id="status" class="status">-</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
